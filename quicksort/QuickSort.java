@@ -1,25 +1,28 @@
-public class QuickSort <T> {
+import java.lang.reflect.Array;
+
+public class QuickSort <T extends Comparable <T>> {
 	
 	private T[] array;
 	private int N;
 	
-	public QuickSort(T[] array, int N){
-		this.array = new T[N];
+	public QuickSort(Class<T[]> clazz, int N){
+		this.array = clazz.cast(Array.newInstance(clazz.getComponentType(), N));
 		this.N = N;
 	}
 
 	public int choiceOfPivotWithMedianOfThree (T[] array, int lo, int hi) {
 		// https://en.wikipedia.org/wiki/Quicksort#Choice_of_pivot
 		int pivot = (lo + hi)/2;
-		if(array[lo] > array[pivot]) {
+		if(array[lo].compareTo(array[pivot]) > 0) {
 			swap(array, lo, pivot);
 		}
-		if (array[lo] > array[hi] ) {
+		if (array[lo].compareTo(array[hi]) > 0 ) {
 			swap(array, lo, hi);
 		}
-		if (array[pivot] > array[hi]) {
+		if (array[pivot].compareTo(array[hi]) > 0) {
 			swap(array, pivot, hi);
 		}
+		return pivot;
 	}
 	
 	public  void swap(T[] array, int i, int j) {
@@ -36,15 +39,15 @@ public class QuickSort <T> {
 		}
 	}
 	
-	public  void partition (T [] array, int lo, int hi) {
+	public  int partition (T [] array, int lo, int hi) {
 		int pivot = choiceOfPivotWithMedianOfThree(array, lo, hi);
 		int i = lo;
 		int j = hi;
 		while(true) {
-			while(array[i]< pivot) {
+			while(array[i].compareTo(array[pivot]) < 0) {
 				i++;
 			}
-			while(array[j > pivot]) {
+			while(array[j].compareTo(array[pivot]) > 0) {
 				j--;
 			}
 			if (i >= j) {
