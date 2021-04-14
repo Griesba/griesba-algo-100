@@ -3,6 +3,7 @@ package com.leretvil.cache.containers;
 import com.leretvil.cache.CacheSize;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbstractCache<K,V> {
@@ -38,6 +39,22 @@ public abstract class AbstractCache<K,V> {
             this.cacheData.put(key, value);
         }
         return res;
+    }
+
+    public Map<K, V> toMap() {
+        return cacheData;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int size() {
+        return this.cacheData.size();
+    }
+
+    public V get(K key) {
+        return key != null ? this.cacheData.get(key) : null;
     }
 
     // public boolean putAll()
